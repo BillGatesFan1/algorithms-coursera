@@ -4,7 +4,9 @@ from random import shuffle
 import sys
 from union_find_solutions import quick_find_UF
 from union_find_solutions import quick_union_UF
+from union_find_solutions import path_compressed_quick_union_UF
 from union_find_solutions import weighted_quick_union_UF
+from union_find_solutions import path_compressed_weighted_quick_union_UF
 import time
 
 random.seed(42)
@@ -49,19 +51,37 @@ def main():
     print quick_union.__doc__
     test_solution(quick_union, unions, finds)
 
+    pc_quick_union = path_compressed_quick_union_UF(num_nodes)
+    print pc_quick_union.__doc__
+    test_solution(pc_quick_union, unions, finds)
+
     weighted_quick_union = weighted_quick_union_UF(num_nodes)
     print weighted_quick_union.__doc__
     test_solution(weighted_quick_union, unions, finds)
+
+    pc_weighted_quick_union = path_compressed_weighted_quick_union_UF(num_nodes)
+    print pc_weighted_quick_union.__doc__
+    test_solution(pc_weighted_quick_union, unions, finds)
 
     if quick_find.compare_result(quick_union.get_result()):
         print "quick union Results match"
     else:
         print "quick union Results don't match"
+
+    if quick_find.compare_result(pc_quick_union.get_result()):
+        print "pc quick union Results match"
+    else:
+        print "pc quick union Results don't match"
     
     if quick_find.compare_result(weighted_quick_union.get_result()):
         print "weighted quick union Results match"
     else:
         print "weighted quick union Results don't match"
+
+    if quick_find.compare_result(pc_weighted_quick_union.get_result()):
+        print "path compressed weighted quick union Results match"
+    else:
+        print "path compressed weighted quick union Results don't match"
     
 
 if __name__ == "__main__":

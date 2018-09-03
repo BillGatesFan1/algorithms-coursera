@@ -7,11 +7,11 @@ class UF(object):
     
     def union(self, nums):
         '''add connection between nums p and q'''
-        pass
-    
+        raise NotImplementedError
+
     def connected(self, nums):
         '''are nums p andd q in the same component'''
-        pass
+        raise NotImplementedError
     
     def find(self, p):
         '''component identifier for p'''
@@ -77,7 +77,19 @@ class quick_union_UF(UF):
     def count(self):
         '''number of components'''
         return len(set(map(self.give_root,self.component)))
+
+class path_compressed_quick_union_UF(quick_union_UF):
+    '''path compressed Quick Union'''
+    def __init__(self, N):
+        super(path_compressed_quick_union_UF, self).__init__(N)
     
+    def give_root(self, p):
+        while self.component[p] != p:
+            self.component[p] = self.component[self.component[p]]
+            p = self.component[p]
+        return p
+
+
 class weighted_quick_union_UF(quick_union_UF):
     '''weighted quick union'''
     def __init__(self, N):
@@ -97,3 +109,15 @@ class weighted_quick_union_UF(quick_union_UF):
             self.component[self.give_root(nums[1])] = self.give_root(self.component[nums[0]])
             self.component_size[self.give_root(nums[1])] += \
                         self.component_size[self.give_root(self.component[nums[0]])]
+
+class path_compressed_weighted_quick_union_UF(weighted_quick_union_UF):
+    '''path compressed weighted quick union'''
+    def __init__(self, N):
+        self.component_size = [1 for x in range(N)]
+        super(path_compressed_weighted_quick_union_UF, self).__init__(N)
+    
+    def give_root(self, p):
+        while self.component[p] != p:
+            self.component[p] = self.component[self.component[p]]
+            p = self.component[p]
+        return p
