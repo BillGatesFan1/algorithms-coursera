@@ -77,3 +77,23 @@ class quick_union_UF(UF):
     def count(self):
         '''number of components'''
         return len(set(map(self.give_root,self.component)))
+    
+class weighted_quick_union_UF(quick_union_UF):
+    '''weighted quick union'''
+    def __init__(self, N):
+        self.component_size = [1 for x in range(N)]
+        super(weighted_quick_union_UF, self).__init__(N)
+    
+    def union(self, nums):
+        '''add connection between nums p and q'''
+        # is the second tree bigger than the first?
+        if self.component_size[self.give_root(nums[1])] > self.component_size[self.give_root(nums[0])]:
+            # set the root node of first to be the root of second, since the first tree is smaller 
+            self.component[self.give_root(nums[0])] = self.give_root(self.component[nums[1]])
+            self.component_size[self.give_root(nums[0])] += \
+                        self.component_size[self.give_root(self.component[nums[1]])]
+        else:
+            # set the root node of second to be the root of first, since the second tree is smaller or equal 
+            self.component[self.give_root(nums[1])] = self.give_root(self.component[nums[0]])
+            self.component_size[self.give_root(nums[1])] += \
+                        self.component_size[self.give_root(self.component[nums[0]])]

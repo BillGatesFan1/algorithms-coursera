@@ -4,6 +4,7 @@ from random import shuffle
 import sys
 from union_find_solutions import quick_find_UF
 from union_find_solutions import quick_union_UF
+from union_find_solutions import weighted_quick_union_UF
 import time
 
 random.seed(42)
@@ -48,10 +49,20 @@ def main():
     print quick_union.__doc__
     test_solution(quick_union, unions, finds)
 
+    weighted_quick_union = weighted_quick_union_UF(num_nodes)
+    print weighted_quick_union.__doc__
+    test_solution(weighted_quick_union, unions, finds)
+
     if quick_find.compare_result(quick_union.get_result()):
-        print 'Results match'
+        print "quick union Results match"
     else:
-        print "Results don't match"
+        print "quick union Results don't match"
+    
+    if quick_find.compare_result(weighted_quick_union.get_result()):
+        print "weighted quick union Results match"
+    else:
+        print "weighted quick union Results don't match"
+    
 
 if __name__ == "__main__":
     # execute only if run as a script
