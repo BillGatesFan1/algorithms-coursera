@@ -2,7 +2,8 @@ import random
 from itertools import combinations
 from random import shuffle
 import sys
-from union_find_solutions import eagerUF
+from union_find_solutions import quick_find_UF
+from union_find_solutions import quick_union_UF
 import time
 
 random.seed(42)
@@ -11,37 +12,46 @@ def generate_pairs(node_combinations, num):
     return node_combinations[0:num]
 
 def test_solution(solution, unions, finds):
-    print solution.count()
-    print map(solution.connected, unions)
+    #print solution.count()
+    map(solution.connected, unions)
     start_time = time.time()
     map(solution.union, unions)
     end_time = time.time()
-    print("Eager Union Elapsed time was %0.10f micro-seconds" % (float(end_time - start_time)*1e6/len(unions)))
-    print map(solution.connected, unions)
+    print("Union op = %6.10f micro-seconds" % (float(end_time - start_time)*1e6/len(unions)))
+    #map(solution.connected, unions)
     start_time = time.time()
-    print map(solution.connected, finds)
+    result = map(solution.connected, finds)
     end_time = time.time()
-    print("Eager Find Elapsed time was %0.10f micro-seconds" % (float(end_time - start_time)*1e6/len(finds)))
+    print("Find op = %6.10f micro-seconds" % (float(end_time - start_time)*1e6/len(finds)))
     print solution.count()
+    solution.set_result(result)
 
 def main():
     num_nodes = int(sys.argv[1])
     num_unions = int(sys.argv[2])
     num_finds = int(sys.argv[3])
 
-    print list(xrange(num_nodes))
+    #print list(xrange(num_nodes))
     nodes =  xrange(num_nodes)
     node_combinations = list(combinations(nodes, 2))
 
     unions = generate_pairs(node_combinations, num_unions)
-    print unions
+    #print unions
     finds = generate_pairs(node_combinations, num_finds)
-    print finds
+    #print finds
 
-    soln = eagerUF(num_nodes)
-    test_solution(soln, unions, finds)
+    quick_find = quick_find_UF(num_nodes)
+    print quick_find.__doc__
+    test_solution(quick_find, unions, finds)
 
-    
+    quick_union = quick_union_UF(num_nodes)
+    print quick_union.__doc__
+    test_solution(quick_union, unions, finds)
+
+    if quick_find.compare_result(quick_union.get_result()):
+        print 'Results match'
+    else:
+        print "Results don't match"
 
 if __name__ == "__main__":
     # execute only if run as a script
