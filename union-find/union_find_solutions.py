@@ -99,16 +99,20 @@ class weighted_quick_union_UF(quick_union_UF):
     def union(self, nums):
         '''add connection between nums p and q'''
         # is the second tree bigger than the first?
-        if self.component_size[self.give_root(nums[1])] > self.component_size[self.give_root(nums[0])]:
+        p_root = self.give_root(nums[0])
+        q_root = self.give_root(nums[1])
+        if p_root == q_root:
+            return
+        if self.component_size[q_root] > self.component_size[p_root]:
             # set the root node of first to be the root of second, since the first tree is smaller 
-            self.component[self.give_root(nums[0])] = self.give_root(self.component[nums[1]])
-            self.component_size[self.give_root(nums[0])] += \
-                        self.component_size[self.give_root(self.component[nums[1]])]
+            self.component[p_root] = q_root
+            self.component_size[q_root] += self.component_size[p_root]
+            self.component_size[p_root] = 0
         else:
             # set the root node of second to be the root of first, since the second tree is smaller or equal 
-            self.component[self.give_root(nums[1])] = self.give_root(self.component[nums[0]])
-            self.component_size[self.give_root(nums[1])] += \
-                        self.component_size[self.give_root(self.component[nums[0]])]
+            self.component[q_root] = p_root
+            self.component_size[p_root] += self.component_size[q_root]
+            self.component_size[q_root] = 0
 
 class path_compressed_weighted_quick_union_UF(weighted_quick_union_UF):
     '''path compressed weighted quick union'''
