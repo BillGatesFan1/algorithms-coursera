@@ -1,0 +1,30 @@
+union_find_solutions implement various union_find algorithms.
+union_find.py tests these algorithms.: 
+provide following arguments:
+    num_nodes = int(sys.argv[1])
+    num_unions = int(sys.argv[2])
+    num_finds = int(sys.argv[3])
+ToDo: 
+1) implement generation of random union and find pairs using generators.
+Current implementation generates all pairs and then chooses a subset.
+2) run for multiple values of nodes, #unions, #finds and find a * log(b) values,
+typically done by doubling the ops.
+3) plot the results.
+
+iq_1.py implements interview questions 1: given a set of unions, 
+when are all nodes connected, i.e. part of one component?
+
+percolation.py implements the percolation exercise:
+two versions are implemented, one that is a grid, and another that
+is a cylinder.
+# for 200x200 grid, 1000 iterations for each probability run this
+python percolation.py 200 1000 1
+# for 200x200 cylindrical-grid, 1000 iterations for each probability run this
+python percolation.py 200 1000 0
+
+Some ideas to analytically derive the probability p to enable percolation:
+consider the limiting case when a nxn grid percolates with probability p > px,
+but does not percolate with probability p <= px.
+Then when N+1 x N+1 grid is considered, the probability px remains the same.
+Another interesting thought is to see how and why does the probability p above
+changes when a grid is transformed into a cylinder.

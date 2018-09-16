@@ -15,13 +15,11 @@ def generate_pairs(node_combinations, num):
     return node_combinations[0:num]
 
 def test_solution(solution, unions, finds):
-    #print solution.count()
     map(solution.connected, unions)
     start_time = time.time()
     map(solution.union, unions)
     end_time = time.time()
     print("Union op = %6.10f micro-seconds" % (float(end_time - start_time)*1e6/len(unions)))
-    #map(solution.connected, unions)
     start_time = time.time()
     result = map(solution.connected, finds)
     end_time = time.time()
@@ -33,15 +31,12 @@ def main():
     num_nodes = int(sys.argv[1])
     num_unions = int(sys.argv[2])
     num_finds = int(sys.argv[3])
-
-    #print list(xrange(num_nodes))
+    
     nodes =  xrange(num_nodes)
     node_combinations = list(combinations(nodes, 2))
 
     unions = generate_pairs(node_combinations, num_unions)
-    #print unions
     finds = generate_pairs(node_combinations, num_finds)
-    #print finds
 
     quick_find = quick_find_UF(num_nodes)
     print quick_find.__doc__
